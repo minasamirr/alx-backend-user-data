@@ -36,7 +36,7 @@ def unauthorized() -> str:
 
 
 @app_views.route('/api/v1/forbidden', methods=['GET'], strict_slashes=False)
-def get_forbidden():
+def get_forbidden() -> str:
     """ GET /api/v1/forbidden
     Raise:
       - 401 error
