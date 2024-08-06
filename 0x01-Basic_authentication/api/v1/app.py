@@ -32,8 +32,7 @@ def before_request():
     # List of public endpoints that do not require authentication
     public_endpoints = ['/api/v1/status/',
                         '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    if request.path not in public_endpoints and (
-                        auth.require_auth(request.path, public_endpoints)):
+    if request.path not in public_endpoints and (auth.require_auth(request.path, public_endpoints)):
         if auth.authorization_header(request) is None:
             abort(401)  # Unauthorized
         if auth.current_user(request) is None:
