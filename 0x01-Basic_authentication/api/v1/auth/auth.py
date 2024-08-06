@@ -22,7 +22,7 @@ class Auth:
             bool: True if authentication is required, False otherwise
         """
         # If path is None, authentication is required
-        if path is None or excluded_paths is None or not excluded_paths:
+        if path is None or not excluded_paths:
             return True
         for ex_path in excluded_paths:
             if ex_path.endswith('*'):
