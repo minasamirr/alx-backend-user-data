@@ -22,19 +22,13 @@ class Auth:
             bool: True if authentication is required, False otherwise
         """
         # If path is None, authentication is required
-        if path is None:
+        if path is None or not excluded_paths:
             return True
-
-        # If excluded_paths is None or empty, authentication is required
-        if excluded_paths is None or not excluded_paths:
-            return True
-
-        # Normalize the path
-        nor_path = path if path.endswith('/') else path + '/'
-
-        # Check if the path is in the excluded_paths
-        for excluded_path in excluded_paths:
-            if nor_path == excluded_path or nor_path.startswith(excluded_path):
+        for ex_path in excluded_paths:
+            if ex_path.endswith('*'):
+                if path.startswith(ex_path[:-1]):
+                    return False
+            elif ex_path == path or ex_path + '/' == path:
                 return False
 
         return True
