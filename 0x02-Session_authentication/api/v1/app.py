@@ -47,16 +47,6 @@ def forbidden(error) -> str:
     return jsonify({"error": "Forbidden"}), 403
 
 
-# @app.before_first_request
-# def configure_auth():
-#     """ Configure authentication based on environment variables """
-#     global auth
-#     if os.getenv("AUTH_TYPE") == "session_auth":
-#         auth = SessionAuth()
-#     else:
-#         auth = BasicAuth()
-
-
 @app.before_request
 def before_request():
     """Check if request is authorized before processing it"""
@@ -71,6 +61,7 @@ def before_request():
         abort(401)  # Unauthorized
     if auth.current_user(request) is None:
         abort(403)  # Forbidden
+    request.current_user = auth.current_user(request)  # Set current user
 
 
 if __name__ == "__main__":
