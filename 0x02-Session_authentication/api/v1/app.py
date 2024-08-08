@@ -54,14 +54,15 @@ def before_request():
         return
     # List of public endpoints that do not require authentication
     public_endpoints = ['/api/v1/status/',
-                        '/api/v1/unauthorized/', '/api/v1/forbidden/']
+                        '/api/v1/unauthorized/', '/api/v1/forbidden/',
+                        '/api/v1/auth_session/login/']
     if not auth.require_auth(request.path, public_endpoints):
         return
-    if auth.authorization_header(request) is None:
+    if auth.authorization_header(
+            request) is None and auth.session_cookie(request) is None:
         abort(401)  # Unauthorized
     if auth.current_user(request) is None:
         abort(403)  # Forbidden
-    request.current_user = auth.current_user(request)  # Set current user
 
 
 if __name__ == "__main__":
