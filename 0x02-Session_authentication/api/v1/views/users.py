@@ -151,24 +151,24 @@ def update_user(user_id: str = None) -> str:
     return jsonify(user.to_json()), 200
 
 
-@app_views.route('/api/v1/users', methods=['GET'], strict_slashes=False)
-def get_users():
-    """ Retrieve all users """
-    if request.current_user is None:
-        abort(401)
-    users = User.all()
-    return jsonify([user.to_json() for user in users])
+# @app_views.route('/api/v1/users', methods=['GET'], strict_slashes=False)
+# def get_users():
+#     """ Retrieve all users """
+#     if request.current_user is None:
+#         abort(401)
+#     users = User.all()
+#     return jsonify([user.to_json() for user in users])
 
 
-@app_views.route(
-        '/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False)
-def get_user(user_id):
-    """ Retrieve a user by ID """
-    if user_id == 'me':
-        if request.current_user is None:
-            abort(404)
-        return jsonify(request.current_user.to_json())
-    user = User.get(user_id)
-    if user is None:
-        abort(404)
-    return jsonify(user.to_json())
+# @app_views.route(
+#         '/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False)
+# def get_user(user_id):
+#     """ Retrieve a user by ID """
+#     if user_id == 'me':
+#         if request.current_user is None:
+#             abort(404)
+#         return jsonify(request.current_user.to_json())
+#     user = User.get(user_id)
+#     if user is None:
+#         abort(404)
+#     return jsonify(user.to_json())

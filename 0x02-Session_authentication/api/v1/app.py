@@ -47,14 +47,14 @@ def forbidden(error) -> str:
     return jsonify({"error": "Forbidden"}), 403
 
 
-@app.before_first_request
-def configure_auth():
-    """ Configure authentication based on environment variables """
-    global auth
-    if os.getenv("AUTH_TYPE") == "session_auth":
-        auth = SessionAuth()
-    else:
-        auth = BasicAuth()
+# @app.before_first_request
+# def configure_auth():
+#     """ Configure authentication based on environment variables """
+#     global auth
+#     if os.getenv("AUTH_TYPE") == "session_auth":
+#         auth = SessionAuth()
+#     else:
+#         auth = BasicAuth()
 
 
 @app.before_request
