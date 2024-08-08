@@ -160,7 +160,8 @@ def get_users():
     return jsonify([user.to_json() for user in users])
 
 
-@app_views.route('/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False)
+@app_views.route(
+        '/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user(user_id):
     """ Retrieve a user by ID """
     if user_id == 'me':
