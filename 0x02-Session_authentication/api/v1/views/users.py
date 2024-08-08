@@ -4,6 +4,10 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
+from api.v1.auth.auth import Auth
+
+
+auth = Auth()
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
@@ -12,6 +16,11 @@ def view_all_users() -> str:
     Return:
       - list of all User objects JSON represented
     """
+    if auth.require_auth(request.path, []):
+        if auth.authorization_header(request) is None:
+            abort(401)  # Unauthorized
+        if auth.current_user(request) is None:
+            abort(403)  # Forbidden
     all_users = [user.to_json() for user in User.all()]
     return jsonify(all_users)
 
@@ -27,6 +36,11 @@ def view_one_user(user_id: str = None) -> str:
     """
     if user_id is None:
         abort(404)
+    if auth.require_auth(request.path, []):
+        if auth.authorization_header(request) is None:
+            abort(401)  # Unauthorized
+        if auth.current_user(request) is None:
+            abort(403)  # Forbidden
     user = User.get(user_id)
     if user is None:
         abort(404)
@@ -44,6 +58,11 @@ def delete_user(user_id: str = None) -> str:
     """
     if user_id is None:
         abort(404)
+    if auth.require_auth(request.path, []):
+        if auth.authorization_header(request) is None:
+            abort(401)  # Unauthorized
+        if auth.current_user(request) is None:
+            abort(403)  # Forbidden
     user = User.get(user_id)
     if user is None:
         abort(404)
@@ -63,6 +82,11 @@ def create_user() -> str:
       - User object JSON represented
       - 400 if can't create the new User
     """
+    if auth.require_auth(request.path, []):
+        if auth.authorization_header(request) is None:
+            abort(401)  # Unauthorized
+        if auth.current_user(request) is None:
+            abort(403)  # Forbidden
     rj = None
     error_msg = None
     try:
@@ -104,6 +128,11 @@ def update_user(user_id: str = None) -> str:
     """
     if user_id is None:
         abort(404)
+    if auth.require_auth(request.path, []):
+        if auth.authorization_header(request) is None:
+            abort(401)  # Unauthorized
+        if auth.current_user(request) is None:
+            abort(403)  # Forbidden
     user = User.get(user_id)
     if user is None:
         abort(404)
