@@ -8,16 +8,15 @@ from sqlalchemy.exc import IntegrityError
 import uuid
 
 
-def _hash_password(password: str) -> bytes:
-    """Hash a password with bcrypt."""
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-
-
 class Auth:
     """Auth class to handle user registration and authentication."""
 
     def __init__(self):
         self._db = DB()
+
+    def _hash_password(password: str) -> bytes:
+        """Hash a password with bcrypt."""
+        return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
     def register_user(self, email: str, password: str) -> User:
         """Register a new user."""
@@ -35,6 +34,10 @@ class Auth:
                 password.encode(), user.hashed_password.encode())
         except NoResultFound:
             return False
+
+    def _generate_uuid() -> str:
+        """Generate a new UUID."""
+        return str(uuid.uuid4())
 
     def create_session(self, email: str) -> str:
         """Create a new session for the user."""
@@ -60,8 +63,3 @@ class Auth:
         user = self._db.find_user_by(id=user_id)
         user.session_id = None
         self._db._session.commit()
-
-
-def _generate_uuid() -> str:
-    """Generate a new UUID."""
-    return str(uuid.uuid4())
