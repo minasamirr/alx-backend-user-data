@@ -48,29 +48,29 @@ class DB:
         self._session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs) -> User:
-        """
-        Find a user by given keyword arguments.
+    # def find_user_by(self, **kwargs) -> User:
+    #     """
+    #     Find a user by given keyword arguments.
 
-        Parameters:
-        - **kwargs: Search criteria.
+    #     Parameters:
+    #     - **kwargs: Search criteria.
 
-        Returns:
-        - User: The found User object.
+    #     Returns:
+    #     - User: The found User object.
 
-        Raises:
-        - InvalidRequestError: If the query arguments are invalid.
-        - NoResultFound: If no results are found.
-        """
-        try:
-            user = self._session.query(User).filter_by(**kwargs).one()
-        except Exception as e:
-            if isinstance(e, NoResultFound):
-                raise NoResultFound("No result found")
-            elif isinstance(e, InvalidRequestError):
-                raise InvalidRequestError("Invalid request")
-            raise
-        return user
+    #     Raises:
+    #     - InvalidRequestError: If the query arguments are invalid.
+    #     - NoResultFound: If no results are found.
+    #     """
+    #     try:
+    #         user = self._session.query(User).filter_by(**kwargs).one()
+    #     except Exception as e:
+    #         if isinstance(e, NoResultFound):
+    #             raise NoResultFound("No result found")
+    #         elif isinstance(e, InvalidRequestError):
+    #             raise InvalidRequestError("Invalid request")
+    #         raise
+    #     return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """
